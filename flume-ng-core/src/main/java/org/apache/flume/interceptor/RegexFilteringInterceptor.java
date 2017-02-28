@@ -233,7 +233,7 @@ public class RegexFilteringInterceptor implements Interceptor {
       for (int i=0;i<limit;i++){
         int index = str.indexOf(split);
 
-        if (index<0){
+        if (index<0 && i!=limit-1){
           throw new StringIndexOutOfBoundsException();
         }
 
