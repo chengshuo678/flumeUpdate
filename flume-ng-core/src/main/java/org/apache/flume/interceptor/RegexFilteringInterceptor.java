@@ -31,6 +31,7 @@ import java.util.regex.Pattern;
 import org.apache.flume.Context;
 import org.apache.flume.Event;
 import org.apache.flume.IntercepterConstant;
+import org.apache.flume.TimeUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -154,11 +155,18 @@ public class RegexFilteringInterceptor implements Interceptor {
         StringBuilder stringBuilderResult = new StringBuilder(IntercepterConstant.leftBrace);
 
         //时间
-        stringBuilderResult.append(IntercepterConstant.Item.TIME);
+        stringBuilderResult.append(IntercepterConstant.Item.TIMEStr);
         stringBuilderResult.append(IntercepterConstant.coloa);
         stringBuilderResult.append(IntercepterConstant.quatation);
         stringBuilderResult.append(time);
         stringBuilderResult.append(IntercepterConstant.quatation);
+
+        stringBuilderResult.append(IntercepterConstant.comma);
+
+        //时间毫秒数
+        stringBuilderResult.append(IntercepterConstant.Item.TIMENum);
+        stringBuilderResult.append(IntercepterConstant.coloa);
+        stringBuilderResult.append(TimeUtil.parseTime(time));
 
         stringBuilderResult.append(IntercepterConstant.comma);
 

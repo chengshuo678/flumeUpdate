@@ -32,16 +32,14 @@ public class IntercepterConstant {
 
     public static class Item{
 
-        public static String TIME = "\"time\"";
+        public static String TIMEStr = "\"@timeStr\"";
+        public static String TIMENum = "\"timeNum\"";
         public static String OPT = "\"opt\"";
         public static String SPREAD_ID = "\"spreadId\"";
         public static String DEMAND_ID = "\"demandId\"";
         public static String PLATFORM = "\"platform\"";
         public static String IP = "\"ip\"";
         public static String UA = "\"ua\"";
-
-
-
     }
 
 }
