@@ -100,4 +100,19 @@ public class TestRegexFilteringInterceptor {
 
     builder.configure(ctx);
   }
+
+  @Test
+  public void testLogBehavior() throws ClassNotFoundException,
+          InstantiationException, IllegalAccessException {
+    Interceptor.Builder builder = InterceptorBuilderFactory.newInstance(
+            InterceptorType.REGEX_FILTER.toString());
+    builder.configure(new Context());
+    Interceptor interceptor = builder.build();
+
+    Event event = EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.198.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8);
+
+    Event filteredEvent = interceptor.intercept(event);
+    Assert.assertNotNull(filteredEvent);
+    Assert.assertEquals(event, filteredEvent);
+  }
 }

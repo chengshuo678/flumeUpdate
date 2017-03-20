@@ -32,6 +32,7 @@ import org.apache.flume.Context;
 import org.apache.flume.Event;
 import org.apache.flume.IntercepterConstant;
 import org.apache.flume.TimeUtil;
+import org.apache.flume.ip.IpHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -105,17 +106,6 @@ public class RegexFilteringInterceptor implements Interceptor {
     // excludeRegex are defined.
 
     if (!excludeEvents) {
-
-//      logger.debug("cheng header:" + event.getHeaders());
-
-//      Map<String,String> map = event.getHeaders();
-//      for (String str:map.keySet()){
-//        logger.debug("cheng header key:",str);
-//        logger.debug("cheng header value:",map.get(str));
-//      }
-
-//      logger.debug("cheng body:" + event.getBody());
-      logger.debug("cheng bodyStr:" + new String(event.getBody()));
 
       byte[] newBody = converJson(event.getBody());
 
@@ -218,7 +208,18 @@ public class RegexFilteringInterceptor implements Interceptor {
         stringBuilderResult.append(contents[5]);
         stringBuilderResult.append(IntercepterConstant.quatation);
 
+        stringBuilderResult.append(IntercepterConstant.comma);
+
+        //region
+        stringBuilderResult.append(IntercepterConstant.Item.REGION);
+        stringBuilderResult.append(IntercepterConstant.coloa);
+        stringBuilderResult.append(IntercepterConstant.quatation);
+        stringBuilderResult.append(IpHelper.findRegionByIp(contents[4]));
+        stringBuilderResult.append(IntercepterConstant.quatation);
+
         stringBuilderResult.append(IntercepterConstant.rightBrace);
+
+        logger.info("converJson lastResult:" + new String(stringBuilderResult));
 
         return stringBuilderResult.toString().getBytes();
       } catch (Exception e) {

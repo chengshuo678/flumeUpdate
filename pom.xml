@@ -73,6 +73,7 @@ limitations under the License.
     <module>flume-tools</module>
     <module>flume-ng-auth</module>
     <module>flume-shared</module>
+    <module>flume-ng-ip</module>
   </modules>
 
   <profiles>
@@ -1201,6 +1202,13 @@ limitations under the License.
       <dependency>
         <groupId>org.apache.flume</groupId>
         <artifactId>flume-ng-auth</artifactId>
+        <version>1.7.0</version>
+      </dependency>
+
+      <!-- support ip conver address -->
+      <dependency>
+        <groupId>org.apache.flume</groupId>
+        <artifactId>flume-ng-ip</artifactId>
         <version>1.7.0</version>
       </dependency>
 

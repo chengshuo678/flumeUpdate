@@ -388,6 +388,11 @@ limitations under the License.
       <!--<artifactId>flume-taildir-source</artifactId>-->
     <!--</dependency>-->
 
+    <dependency>
+      <groupId>org.apache.flume</groupId>
+      <artifactId>flume-ng-ip</artifactId>
+    </dependency>
+
 
   </dependencies>
 

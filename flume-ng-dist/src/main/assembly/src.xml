@@ -51,6 +51,7 @@
         <include>org.apache.flume:flume-tools</include>
         <include>org.apache.flume:flume-ng-auth</include>
         <include>org.apache.flume:flume-shared</include>
+        <include>org.apache.flume:flume-ng-ip</include>
       </includes>
 
       <sources>
@@ -94,6 +95,7 @@
         <exclude>flume-ng-clients/**</exclude>
         <exclude>flume-ng-embedded-agent/**</exclude>
         <exclude>flume-tools/**</exclude>
+        <exclude>flume-ng-ip/**</exclude>
         <exclude>**/target/**</exclude>
         <exclude>**/.classpath</exclude>
         <exclude>**/.project</exclude>

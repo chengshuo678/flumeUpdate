@@ -40,6 +40,7 @@ public class IntercepterConstant {
         public static String PLATFORM = "\"platform\"";
         public static String IP = "\"ip\"";
         public static String UA = "\"ua\"";
+        public static String REGION = "\"region\"";
     }
 
 }
