@@ -22,6 +22,7 @@ import org.apache.flume.Context;
 import org.apache.flume.Event;
 import org.apache.flume.event.EventBuilder;
 import org.apache.flume.interceptor.RegexFilteringInterceptor.Constants;
+import org.apache.flume.ip.IpHelper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -104,14 +105,23 @@ public class TestRegexFilteringInterceptor {
   @Test
   public void testLogBehavior() throws ClassNotFoundException,
           InstantiationException, IllegalAccessException {
+
+    IpHelper.buildTrain();
+
     Interceptor.Builder builder = InterceptorBuilderFactory.newInstance(
             InterceptorType.REGEX_FILTER.toString());
     builder.configure(new Context());
     Interceptor interceptor = builder.build();
 
-    Event event = EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.198.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8);
+    Event event = EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.197.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8);
 
     Event filteredEvent = interceptor.intercept(event);
+    Event filteredEvent1 = interceptor.intercept(EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.197.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8));
+    Event filteredEvent2 = interceptor.intercept(EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.197.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8));
+    Event filteredEvent3 = interceptor.intercept(EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.197.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8));
+    Event filteredEvent4 = interceptor.intercept(EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.197.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8));
+    Event filteredEvent5 = interceptor.intercept(EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.197.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8));
+    Event filteredEvent6 = interceptor.intercept(EventBuilder.withBody("2017-02-20 20:38:36 [[opt:getImg,spreadId:4,demandId:10,platform:null,ip:114.113.197.131,ua:Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36]]", Charsets.UTF_8));
     Assert.assertNotNull(filteredEvent);
     Assert.assertEquals(event, filteredEvent);
   }

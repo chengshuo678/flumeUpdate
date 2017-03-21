@@ -37,6 +37,7 @@ import org.apache.flume.SinkRunner;
 import org.apache.flume.SourceRunner;
 import org.apache.flume.instrumentation.MonitorService;
 import org.apache.flume.instrumentation.MonitoringType;
+import org.apache.flume.ip.IpHelper;
 import org.apache.flume.lifecycle.LifecycleAware;
 import org.apache.flume.lifecycle.LifecycleState;
 import org.apache.flume.lifecycle.LifecycleSupervisor;
@@ -68,6 +69,16 @@ public class Application {
 
   public Application() {
     this(new ArrayList<LifecycleAware>(0));
+
+    //对ip配置文件先加载
+    try {
+      logger.debug("buildTrain start!");
+      IpHelper.buildTrain();
+    }catch (Exception e){
+      logger.debug("buildTrain e:"+e);
+    }
+
+    logger.info("ip config file is loaded");
   }
 
   public Application(List<LifecycleAware> components) {
@@ -225,6 +236,16 @@ public class Application {
   }
 
   public static void main(String[] args) {
+
+    //对ip配置文件先加载
+    try {
+      logger.debug("buildTrain start!");
+      IpHelper.buildTrain();
+    }catch (Exception e){
+      logger.debug("buildTrain e:"+e);
+    }
+
+    logger.info("ip config file is loaded");
 
     try {
 

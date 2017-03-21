@@ -41,13 +41,14 @@ public class IpHelper {
     private static final String ipFile = "ipDatabase.csv";
 
     private static final String regionFile = "ipRegion.xlsx";
+    private static List<IpRelation> ipRelationList = null;
 
-    static{
-        buildTrain();
-    }
+    public static void buildTrain() {
 
-    private static void buildTrain() {
-        List<IpRelation> ipRelationList;
+        if (ipRelationList!=null){
+            return;
+        }
+
         try {
             ipRelationList = IpHelper.getIpRelation();
             int count = 0;
@@ -82,21 +83,24 @@ public class IpHelper {
 //        String file =  IpHelper.class.getClassLoader().getResource(ipFile).getFile();
 //        BufferedReader ipRelationReader = FileUtil.readFile(file);
 
-        InputStream fileInputStream =  IpHelper.class.getClassLoader().getResourceAsStream(ipFile);
-        BufferedReader ipRelationReader = FileUtil.readInputStream(fileInputStream);
+//        InputStream fileInputStream =  IpHelper.class.getClassLoader().getResourceAsStream(ipFile);
+//        BufferedReader ipRelationReader = FileUtil.readInputStream(fileInputStream);
+
+        BufferedReader ipRelationReader = FileUtil.readFile("/home/logs/"+ipFile);
 
         String line;
         List<IpRelation> list = new ArrayList<IpRelation>();
+
         while((line = ipRelationReader.readLine()) != null){
-            String[] split = line.split(",");
-            String ipStart = split[0];
-            String ipEnd = split[1];
-            Integer ipCode = Integer.valueOf(split[2]);
+
+            StringBuilder[] split = getSplitItem(line,',');
+
+            Integer ipCode = Integer.valueOf(split[2].toString());
 
             String province = regionRelationMap.get(ipCode);
             IpRelation ipRelation = new IpRelation();
-            ipRelation.setIpStart(ipStart);
-            ipRelation.setIpEnd(ipEnd);
+            ipRelation.setIpStart(split[0].toString());
+            ipRelation.setIpEnd(split[1].toString());
             ipRelation.setProvince(province);
             list.add(ipRelation);
         }
@@ -109,9 +113,10 @@ public class IpHelper {
      * @throws Exception
      */
     public static Map<Integer, String> getRegionRelationMap() throws Exception {
-        String file =  IpHelper.class.getClassLoader().getResource(regionFile).getFile();
+//        String file =  IpHelper.class.getClassLoader().getResource(regionFile).getFile();
 
-        Workbook workbook = PoiUtil.getWorkbook(file);
+//        Workbook workbook = PoiUtil.getWorkbook(file);
+        Workbook workbook = PoiUtil.getWorkbook("/home/logs/"+regionFile);
 
         Sheet sheet = workbook.getSheetAt(0);
         Map<Integer, String> map = new HashMap<Integer, String>();
@@ -125,5 +130,30 @@ public class IpHelper {
         }
 
         return map;
+    }
+
+    /**
+     * 获取key:value,中的value
+     * @param str
+     * @param split
+     * @return
+     */
+    private static StringBuilder[] getSplitItem(String str,char split){
+
+        StringBuilder[] stringBuilder = new StringBuilder[3];
+
+        int index = str.indexOf(split);
+        stringBuilder[0] = new StringBuilder(str.substring(0,index));
+
+        int index1 = str.substring(index+1).indexOf(split);
+
+        stringBuilder[1] = new StringBuilder(str.substring(index+1,index+1+index1));
+
+        int index2 = str.substring(index+1+index1+1).indexOf(split);
+
+        stringBuilder[2] = new StringBuilder(str.substring(index+1+index1+1,index+1+index1+1+index2));
+
+        return stringBuilder;
+
     }
 }
